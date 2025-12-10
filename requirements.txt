@@ -1,0 +1,6 @@
+stanza
+tqdm
+rich
+numpy
+pandas
+matplotlib
