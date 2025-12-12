@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Boundary F1 (\%) against the lemma-derived morpheme boundaries of MorphScore, all unique word forms. Mean $\pm$ standard deviation over three training seeds; best per language in bold.}
+\label{tab:f1}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 40.0\,{\scriptsize$\pm$1.6} & 18.7\,{\scriptsize$\pm$0.8} & 24.3\,{\scriptsize$\pm$0.8} & 4.4\,{\scriptsize$\pm$2.3} & 35.0\,{\scriptsize$\pm$1.9} \\
+POS-weighted BPE & 43.4\,{\scriptsize$\pm$1.6} & 18.9\,{\scriptsize$\pm$0.8} & 24.5\,{\scriptsize$\pm$0.5} & 6.2\,{\scriptsize$\pm$2.3} & 35.0\,{\scriptsize$\pm$1.6} \\
+\quad transitions only & 43.4\,{\scriptsize$\pm$1.6} & 18.9\,{\scriptsize$\pm$0.8} & 24.5\,{\scriptsize$\pm$0.5} & 6.2\,{\scriptsize$\pm$2.3} & 35.1\,{\scriptsize$\pm$1.6} \\
+\quad penalty only & 42.0\,{\scriptsize$\pm$1.3} & 18.7\,{\scriptsize$\pm$0.8} & 24.4\,{\scriptsize$\pm$1.0} & 4.4\,{\scriptsize$\pm$2.3} & 34.9\,{\scriptsize$\pm$1.9} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 43.9\,{\scriptsize$\pm$0.2} & 16.5\,{\scriptsize$\pm$0.3} & 27.8\,{\scriptsize$\pm$0.7} & 22.2\,{\scriptsize$\pm$1.1} & 34.2\,{\scriptsize$\pm$0.4} \\
+Lemma2Word + BPE & \textbf{59.9\,{\scriptsize$\pm$0.1}} & \textbf{36.3\,{\scriptsize$\pm$0.1}} & \textbf{43.8\,{\scriptsize$\pm$0.3}} & \textbf{52.9\,{\scriptsize$\pm$0.4}} & \textbf{48.7\,{\scriptsize$\pm$0.1}} \\
+BPE, word-initial marker & 25.5\,{\scriptsize$\pm$0.4} & 6.7\,{\scriptsize$\pm$0.5} & 13.1\,{\scriptsize$\pm$0.1} & 7.5\,{\scriptsize$\pm$0.3} & 40.8\,{\scriptsize$\pm$0.4} \\
+Unigram LM & 54.3\,{\scriptsize$\pm$0.5} & 29.0\,{\scriptsize$\pm$0.0} & 35.1\,{\scriptsize$\pm$0.5} & 43.0\,{\scriptsize$\pm$0.8} & 46.5\,{\scriptsize$\pm$0.4} \\
+\bottomrule
+\end{tabular}
+\end{table}

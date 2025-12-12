@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontspec}
+\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf,BoldItalicFont=lmroman10-bolditalic.otf,SmallCapsFont=lmromancaps10-regular.otf]
+\setmonofont{lmmono10-regular.otf}
+\newfontfamily\tamilfont{NotoSerifTamil-Regular.ttf}[Path=fonts/,Script=Tamil]   % bundled under the SIL Open Font License (fonts/OFL.txt)
+\newcommand{\tamil}[1]{{\tamilfont #1}}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\bibsep}{3pt}
+\input{numbers}
+
+\title{\input{sections/title}}
+\author{%
+  Anish Chaudhuri\thanks{Equal contribution.}\\
+  Stanford University\\
+  \texttt{anishch@stanford.edu}
+  \and
+  Jessie Dong\footnotemark[1]\\
+  Stanford University\\
+  \texttt{jessiedong@stanford.edu}
+  \and
+  Maya Vendhan\footnotemark[1]\\
+  Stanford University\\
+  \texttt{mvendhan@stanford.edu}}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\input{sections/intro}
+\input{sections/related}
+\input{sections/methods}
+\input{sections/protocol}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\paragraph{Author contributions.}
+\input{sections/contributions}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix}
+\end{document}

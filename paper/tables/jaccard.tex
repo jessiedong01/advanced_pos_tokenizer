@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Vocabulary reuse: Jaccard overlap (\%) between the vocabularies learned from different training samples (three seed pairs).}
+\label{tab:jaccard}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 76.8\,{\scriptsize$\pm$0.8} & 75.8\,{\scriptsize$\pm$1.8} & 76.8\,{\scriptsize$\pm$0.4} & 63.8\,{\scriptsize$\pm$4.8} & 74.6\,{\scriptsize$\pm$1.9} \\
+POS-weighted BPE & 77.8\,{\scriptsize$\pm$0.9} & 76.3\,{\scriptsize$\pm$2.0} & 76.7\,{\scriptsize$\pm$0.6} & 61.9\,{\scriptsize$\pm$5.4} & 67.1\,{\scriptsize$\pm$7.4} \\
+\quad transitions only & 77.8\,{\scriptsize$\pm$0.9} & 76.2\,{\scriptsize$\pm$2.0} & 76.6\,{\scriptsize$\pm$0.5} & 61.8\,{\scriptsize$\pm$5.4} & 67.2\,{\scriptsize$\pm$7.4} \\
+\quad penalty only & 77.1\,{\scriptsize$\pm$0.7} & 75.8\,{\scriptsize$\pm$1.8} & 76.3\,{\scriptsize$\pm$0.4} & 64.1\,{\scriptsize$\pm$4.8} & 75.1\,{\scriptsize$\pm$2.3} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 74.8\,{\scriptsize$\pm$3.1} & \textbf{77.2\,{\scriptsize$\pm$0.3}} & 74.3\,{\scriptsize$\pm$2.4} & 71.5\,{\scriptsize$\pm$2.5} & 77.0\,{\scriptsize$\pm$1.0} \\
+Lemma2Word + BPE & 76.9\,{\scriptsize$\pm$0.7} & 75.6\,{\scriptsize$\pm$1.5} & \textbf{77.8\,{\scriptsize$\pm$0.6}} & 74.8\,{\scriptsize$\pm$0.5} & 74.1\,{\scriptsize$\pm$3.1} \\
+BPE, word-initial marker & \textbf{78.5\,{\scriptsize$\pm$0.4}} & 74.4\,{\scriptsize$\pm$3.2} & 76.1\,{\scriptsize$\pm$0.9} & \textbf{76.9\,{\scriptsize$\pm$0.2}} & \textbf{78.5\,{\scriptsize$\pm$1.1}} \\
+Unigram LM & 69.3\,{\scriptsize$\pm$1.1} & 66.3\,{\scriptsize$\pm$0.7} & 62.7\,{\scriptsize$\pm$0.2} & 62.9\,{\scriptsize$\pm$0.6} & 69.1\,{\scriptsize$\pm$0.4} \\
+\bottomrule
+\end{tabular}
+\end{table}

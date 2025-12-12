@@ -1,0 +1,15 @@
+{
+ "bits_per_char": 2.9591510745905043,
+ "nll_per_token": 8.131971133996014,
+ "test_tokens": 63058,
+ "test_chars": 249998,
+ "test_unknown_tokens": 41,
+ "train_tokens": 368768,
+ "steps": 271,
+ "epochs": 6.0,
+ "batch": 64,
+ "ctx": 128,
+ "params": 7289344,
+ "seconds": 46.16340684890747,
+ "lm_seed": 0
+}

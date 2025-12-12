@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Boundary recall (\%).}
+\label{tab:recall}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 54.4\,{\scriptsize$\pm$2.6} & 29.4\,{\scriptsize$\pm$1.5} & 37.9\,{\scriptsize$\pm$1.5} & 7.4\,{\scriptsize$\pm$3.7} & 60.2\,{\scriptsize$\pm$2.4} \\
+POS-weighted BPE & 61.3\,{\scriptsize$\pm$2.5} & 29.8\,{\scriptsize$\pm$1.5} & 37.9\,{\scriptsize$\pm$1.3} & 9.5\,{\scriptsize$\pm$3.3} & 60.7\,{\scriptsize$\pm$2.1} \\
+\quad transitions only & 61.3\,{\scriptsize$\pm$2.5} & 29.8\,{\scriptsize$\pm$1.5} & 37.9\,{\scriptsize$\pm$1.3} & 9.6\,{\scriptsize$\pm$3.3} & 60.7\,{\scriptsize$\pm$2.1} \\
+\quad penalty only & 58.7\,{\scriptsize$\pm$2.0} & 29.4\,{\scriptsize$\pm$1.5} & 37.9\,{\scriptsize$\pm$1.6} & 7.4\,{\scriptsize$\pm$3.7} & 60.1\,{\scriptsize$\pm$2.5} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 60.8\,{\scriptsize$\pm$0.3} & 25.9\,{\scriptsize$\pm$0.5} & 44.8\,{\scriptsize$\pm$1.1} & 32.7\,{\scriptsize$\pm$1.6} & 57.8\,{\scriptsize$\pm$0.4} \\
+Lemma2Word + BPE & \textbf{88.2\,{\scriptsize$\pm$0.1}} & \textbf{62.2\,{\scriptsize$\pm$0.3}} & \textbf{70.8\,{\scriptsize$\pm$0.5}} & \textbf{84.5\,{\scriptsize$\pm$0.5}} & \textbf{83.3\,{\scriptsize$\pm$0.3}} \\
+BPE, word-initial marker & 30.3\,{\scriptsize$\pm$0.4} & 9.1\,{\scriptsize$\pm$0.7} & 18.4\,{\scriptsize$\pm$0.2} & 9.0\,{\scriptsize$\pm$0.4} & 59.6\,{\scriptsize$\pm$0.7} \\
+Unigram LM & 68.6\,{\scriptsize$\pm$0.4} & 42.9\,{\scriptsize$\pm$0.2} & 49.3\,{\scriptsize$\pm$0.6} & 51.5\,{\scriptsize$\pm$0.9} & 69.3\,{\scriptsize$\pm$0.7} \\
+\bottomrule
+\end{tabular}
+\end{table}

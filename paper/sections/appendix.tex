@@ -1,0 +1,32 @@
+\section{Precision, Recall and Stability by Language}\label{app:tables}
+\input{tables/precision}
+\input{tables/recall}
+\input{tables/cross}
+\input{tables/jaccard}
+\input{tables/agreement}
+
+\section{Example Segmentations}\label{app:examples}
+\input{tables/examples}
+
+\section{Prompt of the Segmentation Study}\label{app:prompt}
+The language model received this text, with the language name and the batch of words filled in, one word per line.
+\begin{quote}\small\ttfamily\raggedright
+Segment each \{lang\} word below into its morphemes: prefixes, the stem, and suffixes (inflectional and derivational).\\
+Rules: keep every character of the word exactly as given and in order; insert a plus sign ({+}) at each morpheme boundary; a word with a single morpheme is returned unchanged; do not add explanations.\\
+Answer with one line per word in the format \ \ word: seg{+}men{+}ted \ \ and nothing else.\par\medskip
+\{words\}
+\end{quote}
+
+\section{Reproduction}\label{app:repro}
+All code, the data-preparation scripts and the per-run metrics are in the repository.
+The commands below regenerate every number, table and figure.
+\begin{verbatim}
+python experiments/fetch_corpus.py          # Wikipedia paragraphs
+bash   experiments/tag_all.sh               # Stanza tags and lemmas
+bash   experiments/run_all.sh               # 5 languages x 8 methods x 3 seeds
+bash   experiments/run_sweep.sh             # 2,000 and 32,000 types, seed 0
+bash   experiments/after_grid.sh            # language-model probes
+python experiments/llm_segment.py           # LLM segmentation study
+python experiments/aggregate.py             # numbers.tex, tables, figures
+\end{verbatim}
+The gold boundaries come from the Hugging Face dataset \path{catherinearnett/morphscore} and the text from \path{wikimedia/wikipedia}.

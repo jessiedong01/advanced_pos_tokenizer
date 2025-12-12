@@ -1,0 +1,23 @@
+\section{Related Work}\label{sec:related}
+
+\paragraph{Subword tokenization.}
+Byte-pair encoding~\cite{sennrich2016bpe} and the unigram language model~\cite{kudo2018subword}, both packaged in SentencePiece~\cite{kudo2018sentencepiece}, choose token boundaries from character statistics alone.
+\citet{galle2019bpe} explain BPE's success through the shorter sequences it produces, and \citet{mielke2021between} survey the design space between characters and words.
+\citet{bostrom2020bpe} report that unigram segmentations align better with morphology than BPE segmentations and that models pretrained on them perform at least as well, a finding the present results reproduce for five further languages.
+
+\paragraph{Morphology in tokenizers.}
+Unsupervised morphology induction, Morfessor above all~\cite{creutz2007morfessor}, predates neural tokenizers.
+Recent work inserts morphological knowledge into a BPE or WordPiece vocabulary: MorphPiece combines a morphological dictionary with BPE~\cite{jabbar2023morphpiece}, MorphBPE constrains merges with morpheme boundaries from an analyzer~\cite{asgari2025morphbpe}, MorphTok segments Indic text morphologically before subword training~\cite{brahma2025morphtok}, and KinyaBERT builds a morphology-aware model for Kinyarwanda~\cite{nzeyimana2022kinyabert}.
+\citet{hofmann2021superbizarre} show that derivational segmentation improves BERT's interpretation of complex words, and \citet{hofmann2022flota} obtain a similar effect by choosing, among the segmentations a fixed vocabulary allows, the one with the fewest tokens.
+Lemma2Word belongs to this line, with the difference that it derives boundaries from a lemmatizer rather than from a dictionary of morphemes.
+
+\paragraph{Syntax in tokenizers.}
+Part-of-speech information has long been combined with word segmentation for languages written without spaces, where a joint model of segmentation and tagging outperforms a pipeline~\cite{zhang2008joint}.
+For subword tokenization of space-delimited text, the authors are not aware of prior work that weights merges by part-of-speech transitions; the POS-weighted BPE evaluated here is, to that extent, new, and the evaluation shows what the signal can and cannot do.
+
+\paragraph{Evaluating tokenizers.}
+Morphological alignment is measured against segmentation lexica by boundary precision and recall~\cite{batsuren2024evaluating,arnett2025morphscore}, and \citet{arnett2025why} connect poor alignment to the weaker performance of language models in morphologically rich languages.
+MorphScore~\cite{arnett2025morphscore}, used here as the gold standard, derives its boundaries from Universal Dependencies lemmas in 70 languages.
+Intrinsic measures such as compression and R\'enyi efficiency~\cite{zouhar2023noiseless} predict downstream quality imperfectly: \citet{schmidt2024tokenization} find that fewer tokens do not reliably help, \citet{ali2024tokenizer} find the tokenizer choice measurable at the 2.6B scale, \citet{rust2021tokenizer} find monolingual tokenizers superior to a shared multilingual one, and \citet{park2021morphology} show that morphological complexity predicts language-modeling difficulty across 92 languages.
+\citet{toraman2023tokenization} compare tokenizers for Turkish, one of the languages studied here, and report that morphology-level tokenization helps at small vocabulary sizes.
+The language-model probe in Section~\ref{sec:protocol} follows the practice of these studies at a much smaller scale.

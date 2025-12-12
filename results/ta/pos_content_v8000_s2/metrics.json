@@ -1,0 +1,65 @@
+{
+ "lang": "ta",
+ "method": "pos_content",
+ "seed": 2,
+ "vocab_size": 8000,
+ "vocab_budget": 8000,
+ "n_train_paragraphs": 3000,
+ "n_train_words": 142711,
+ "train_seconds": 49.3476779460907,
+ "heldout": {
+  "tokens_per_word": 2.159617774349745,
+  "chars_per_token": 3.8375563007202524,
+  "share_leading_marker": 0.06387031488720014,
+  "share_trailing_marker": 0.3496696363023076,
+  "share_cross_word": 0.023829837893609,
+  "boundaries_absorbed": 0.9734641152515654,
+  "mean_transition_p_all": 0.24920597489802188,
+  "mean_transition_p_absorbed": 0.24692697483312281
+ },
+ "morph": {
+  "lexicon": {
+   "all": {
+    "precision": 0.17238458280389665,
+    "recall": 0.34058577405857743,
+    "f1": 0.22890888638920137,
+    "weighted_precision": 0.1957345971563981,
+    "weighted_recall": 0.30774962742175854,
+    "weighted_f1": 0.2392815758980301,
+    "n_words": 1193,
+    "tokens_per_word": 2.9790444258172672
+   },
+   "test_split": {
+    "precision": 0.16032608695652173,
+    "recall": 0.3277777777777778,
+    "f1": 0.21532846715328466,
+    "weighted_precision": 0.18695652173913044,
+    "weighted_recall": 0.3739130434782609,
+    "weighted_f1": 0.2492753623188406,
+    "n_words": 180,
+    "tokens_per_word": 3.0444444444444443
+   },
+   "unseen": {
+    "precision": 0.14431023521932612,
+    "recall": 0.3465648854961832,
+    "f1": 0.203770197486535,
+    "weighted_precision": 0.1633019291161956,
+    "weighted_recall": 0.3600395647873393,
+    "weighted_f1": 0.22469135802469134,
+    "n_words": 653,
+    "tokens_per_word": 3.4088820826952526
+   },
+   "seen": {
+    "precision": 0.22842639593908629,
+    "recall": 0.3333333333333333,
+    "f1": 0.2710843373493976,
+    "weighted_precision": 0.23204419889502761,
+    "weighted_recall": 0.27615062761506276,
+    "weighted_f1": 0.25218340611353707,
+    "n_words": 540,
+    "tokens_per_word": 2.4592592592592593
+   }
+  }
+ },
+ "morph_filter": "letters"
+}

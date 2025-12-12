@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Share of held-out tokens that span a word boundary (\%).}
+\label{tab:cross}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 15.2\,{\scriptsize$\pm$0.1} & 18.3\,{\scriptsize$\pm$0.0} & 13.1\,{\scriptsize$\pm$0.1} & \textbf{22.0\,{\scriptsize$\pm$1.5}} & 4.5\,{\scriptsize$\pm$0.1} \\
+POS-weighted BPE & 14.2\,{\scriptsize$\pm$0.1} & 18.4\,{\scriptsize$\pm$0.0} & 13.2\,{\scriptsize$\pm$0.2} & 15.6\,{\scriptsize$\pm$2.4} & 4.4\,{\scriptsize$\pm$0.1} \\
+\quad transitions only & 14.2\,{\scriptsize$\pm$0.1} & 18.4\,{\scriptsize$\pm$0.0} & 13.2\,{\scriptsize$\pm$0.2} & 15.6\,{\scriptsize$\pm$2.4} & 4.4\,{\scriptsize$\pm$0.1} \\
+\quad penalty only & 14.4\,{\scriptsize$\pm$0.0} & 18.3\,{\scriptsize$\pm$0.0} & 13.2\,{\scriptsize$\pm$0.1} & 21.9\,{\scriptsize$\pm$1.5} & 4.5\,{\scriptsize$\pm$0.1} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 10.9\,{\scriptsize$\pm$0.2} & 14.5\,{\scriptsize$\pm$0.1} & 9.7\,{\scriptsize$\pm$0.2} & 2.2\,{\scriptsize$\pm$0.3} & 2.5\,{\scriptsize$\pm$0.1} \\
+Lemma2Word + BPE & \textbf{15.7\,{\scriptsize$\pm$0.0}} & \textbf{19.2\,{\scriptsize$\pm$0.0}} & \textbf{15.4\,{\scriptsize$\pm$0.1}} & 12.8\,{\scriptsize$\pm$0.2} & \textbf{6.6\,{\scriptsize$\pm$0.1}} \\
+BPE, word-initial marker & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} \\
+Unigram LM & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} & 0.0\,{\scriptsize$\pm$0.0} \\
+\bottomrule
+\end{tabular}
+\end{table}

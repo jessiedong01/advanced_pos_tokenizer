@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Segmentation agreement: boundary F1 (\%) between the held-out segmentations of tokenizers trained on different samples (three seed pairs).}
+\label{tab:agreement}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 95.2\,{\scriptsize$\pm$0.1} & 95.1\,{\scriptsize$\pm$0.8} & 95.7\,{\scriptsize$\pm$0.2} & 88.6\,{\scriptsize$\pm$3.4} & 94.6\,{\scriptsize$\pm$1.2} \\
+POS-weighted BPE & 95.8\,{\scriptsize$\pm$0.1} & 95.2\,{\scriptsize$\pm$0.9} & 95.5\,{\scriptsize$\pm$0.3} & 87.5\,{\scriptsize$\pm$3.3} & 92.5\,{\scriptsize$\pm$2.7} \\
+\quad transitions only & 95.8\,{\scriptsize$\pm$0.1} & 95.3\,{\scriptsize$\pm$0.9} & 95.5\,{\scriptsize$\pm$0.3} & 87.6\,{\scriptsize$\pm$3.4} & 92.5\,{\scriptsize$\pm$2.7} \\
+\quad penalty only & 95.6\,{\scriptsize$\pm$0.2} & 95.1\,{\scriptsize$\pm$0.8} & 95.5\,{\scriptsize$\pm$0.1} & 88.7\,{\scriptsize$\pm$3.5} & 94.7\,{\scriptsize$\pm$1.3} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 95.0\,{\scriptsize$\pm$1.1} & \textbf{95.9\,{\scriptsize$\pm$0.1}} & 95.5\,{\scriptsize$\pm$0.6} & 94.0\,{\scriptsize$\pm$0.9} & \textbf{96.0\,{\scriptsize$\pm$0.2}} \\
+Lemma2Word + BPE & 95.2\,{\scriptsize$\pm$0.3} & 94.9\,{\scriptsize$\pm$0.6} & 95.8\,{\scriptsize$\pm$0.2} & 94.7\,{\scriptsize$\pm$0.2} & 95.6\,{\scriptsize$\pm$0.7} \\
+BPE, word-initial marker & \textbf{96.9\,{\scriptsize$\pm$0.1}} & 95.5\,{\scriptsize$\pm$1.2} & \textbf{95.9\,{\scriptsize$\pm$0.1}} & \textbf{95.4\,{\scriptsize$\pm$0.2}} & 95.8\,{\scriptsize$\pm$0.6} \\
+Unigram LM & 95.0\,{\scriptsize$\pm$0.1} & 94.1\,{\scriptsize$\pm$0.2} & 93.5\,{\scriptsize$\pm$0.2} & 93.5\,{\scriptsize$\pm$0.1} & 94.3\,{\scriptsize$\pm$0.2} \\
+\bottomrule
+\end{tabular}
+\end{table}

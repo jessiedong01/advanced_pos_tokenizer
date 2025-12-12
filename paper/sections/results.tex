@@ -1,0 +1,84 @@
+\section{Results}\label{sec:results}
+
+\subsection{Boundary Accuracy}\label{sec:res-f1}
+Table~\ref{tab:f1} and Figure~\ref{fig:f1} give boundary F1 against the MorphScore gold boundaries for every method and language; the precision and recall behind them are in Tables~\ref{tab:precision} and~\ref{tab:recall} of the appendix, and Figure~\ref{fig:pr} places every method in the precision--recall plane.
+
+\input{tables/f1}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_f1.pdf}
+\caption{Boundary F1 (\%) of the six main tokenizers in five languages. Bars are means over three training seeds and error bars span one standard deviation.}
+\label{fig:f1}
+\end{figure}
+
+Lemma2Word has the highest F1 in every language, from \nFLtwSpanish\% in Spanish to \nFLtwEnglish\% in English.
+The unigram model is second everywhere, and ahead of every BPE variant by a wide margin in Tamil (\nFUniTamil\% against \nFBpeTamil\% for free-marker BPE).
+The POS-weighted BPE differs from its unweighted base by about three points in English (\nFPosEnglish\% against \nFBpeEnglish\%) and by less than one point in Spanish, Danish and Turkish; only the English difference exceeds the seed-to-seed standard deviation.
+Its two ablations show that the transition term carries the whole effect, since \emph{transitions only} reproduces the full variant to the first decimal and \emph{penalty only} is indistinguishable from the unweighted base.
+The content-word weighting raises F1 from \nFBpeTamil\% to \nFPosContentTamil\% in Tamil and by about three points in English and Danish, and lowers it in Spanish and Turkish.
+The BPE with a word-initial marker, the convention of SentencePiece, has the lowest F1 in four languages; with the whole word and its marker available as a single token, it places fewer boundaries inside words than the free-marker variant (recall \nRHfBpeSpanish\% against \nRBpeSpanish\% in Spanish).
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_pr.pdf}
+\caption{Boundary precision against recall per language. Points are means over three seeds and error bars span one standard deviation; most are smaller than the markers.}
+\label{fig:pr}
+\end{figure}
+
+\subsection{What the Part-of-Speech Weighting Changes}\label{sec:res-pos}
+The weighting of Section~\ref{sec:posbpe} only changes the score of merges that attach a word to the space after it.
+Table~\ref{tab:span} shows what those merges produce on held-out text.
+Between \nSpanShareBpeTurkish\% (Turkish) and \nSpanShareBpeSpanish\% (Spanish) of word boundaries end up inside a token under plain free-marker BPE, and the POS weighting leaves those shares almost unchanged except in Tamil, where it lowers the share from \nSpanShareBpeTamil\% to \nSpanSharePosTamil\%\footnote{Seed 0; the three-seed mean of the share of tokens that span a boundary falls from \nCrossBpeTamil\% to \nCrossPosTamil\% (Table~\ref{tab:cross}).}.
+The transitions spanned are the ones BPE spans anyway: adposition followed by determiner in English (\texttt{of\textvisiblespace the\textvisiblespace}), determiner followed by noun in Spanish, noun followed by adposition in Danish.
+The mean probability of the transition at a spanned boundary is within two points of the mean over all boundaries for every language and every variant, with or without the weighting.
+Frequency decides which boundaries a token crosses, and the transition probabilities, which are themselves frequencies of tag pairs, add nothing that the symbol counts do not already contain.
+
+\input{tables/span}
+
+\subsection{Content-Word Weighting}\label{sec:res-content}
+Doubling the weight of merges inside nouns, proper nouns, verbs and adjectives has the effect it was designed to have, a vocabulary that spends more of its budget on whole content words, and that effect helps or hurts depending on the language.
+It lowers the share of tokens that span a word boundary everywhere (Table~\ref{tab:cross}) and raises recall in Tamil from \nRBpeTamil\% to \nRPosContentTamil\%, where plain BPE almost never cuts at the stem boundary.
+In Spanish and Turkish it lowers recall, because the whole-word tokens it buys replace the suffix tokens that plain BPE learns there.
+The weight of 2 was fixed in advance; a sweep over it would turn the variant into a tuned method and was not run.
+
+\subsection{Lemma2Word}\label{sec:res-l2w}
+Table~\ref{tab:l2w} separates the lexicon variant, which uses nothing beyond what it learned from the training text, from the online variant, which lemmatizes every evaluation word with Stanza, and reports both on all forms, on forms absent from the training text, and on forms from the Universal Dependencies test split.
+
+\input{tables/l2w}
+
+On all forms, the lexicon variant raises recall over free-marker BPE from \nRBpeEnglish\% to \nLtwLexiconAllREnglish\% in English, from \nRBpeTamil\% to \nLtwLexiconAllRTamil\% in Tamil, and by 23 to 34 points in the other three languages, while precision rises as well, since the pieces it hands to BPE are shorter and BPE places fewer boundaries inside them.
+On unseen forms, where only the affix inventories can act, recall is \nLtwLexiconUnseenREnglish\% in English and \nLtwLexiconUnseenRTamil\% in Tamil, and it shrinks to a few points in Spanish and Danish, whose inflectional suffixes are short and ambiguous with word-final letter sequences, so that the 20-occurrence threshold admits few of them.
+The online variant recovers almost every gold boundary (\nLtwOnlineAllRSpanish\% recall in Spanish), which is expected, because the gold boundaries are themselves derived from lemmas and, on forms from the treebank training split, the lemmatizer can return the gold lemma from memory.
+On the test-split forms, which the lemmatizer never saw, recall is lower but still between \nLtwOnlineTestRDanish\% and \nLtwOnlineTestRSpanish\%.
+The precision of the online variant stays below 51\% because BPE goes on splitting inside the pieces; the gold standard records only the stem boundary.
+
+\subsection{Compression and Stability}\label{sec:res-compression}
+Table~\ref{tab:tpw} reports tokens per word on held-out text.
+The POS weighting changes compression by less than one percent.
+Lemma2Word needs \nTpwLtwEnglish{} tokens per word in English against \nTpwBpeEnglish{} for free-marker BPE (four percent more) and \nTpwLtwSpanish{} against \nTpwBpeSpanish{} in Spanish (eight percent more), and it is still more compact than the unigram model in every language but Tamil.
+The two reference tokenizers, which never cross a word boundary, need more tokens per word than free-marker BPE in the three European languages and fewer in Tamil and Turkish, where free-marker BPE spends part of its budget on tokens that span frequent word pairs.
+
+\input{tables/tpw}
+
+Stability across training samples (Tables~\ref{tab:jaccard} and~\ref{tab:agreement} in the appendix) separates the methods less than accuracy does.
+Two vocabularies learned from different samples share between 62\% and 79\% of their entries by the Jaccard measure, and two tokenizers of the same method segment the same held-out text with a boundary agreement of 88\% to 97\%.
+The POS weighting does not improve either number; in Turkish it lowers vocabulary overlap from \nJacBpeTurkish\% to \nJacPosTurkish\% with a standard deviation of \nJacPosTurkishSd{} points, the least stable entry in the table.
+The unigram model has the lowest vocabulary overlap in every language and an agreement comparable to the others, so its vocabularies vary in the rare entries that seldom appear in held-out text.
+
+\subsection{Vocabulary Budget}\label{sec:res-sweep}
+Figure~\ref{fig:sweep} repeats the comparison at budgets of 2,000 and 32,000 types with seed 0.
+The ordering of the methods is the same at every budget.
+Lemma2Word gains with the budget in every language, from \nSweepFLtwEnglishVTwoK\% to \nSweepFLtwEnglishVThirtyTwoK\% in English, because a larger vocabulary leaves its pieces whole more often.
+The unigram model loses accuracy at 32,000 types in English, Tamil and Turkish, where that budget exceeds the number of word types a 3,000-paragraph sample can support and whole words enter the vocabulary.
+The gap between the POS-weighted and the unweighted BPE stays within three points at every budget.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_sweep.pdf}
+\caption{Boundary F1 (\%) at vocabulary budgets of 2,000, 8,000 and 32,000 types, seed 0.}
+\label{fig:sweep}
+\end{figure}
+
+\input{sections/results_lm}
+\input{sections/results_llm}

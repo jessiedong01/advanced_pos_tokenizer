@@ -1,0 +1,58 @@
+\section{Tokenizers Under Test}\label{sec:methods}
+
+Every tokenizer is trained on the same text with the same budget of \nVocabBudget{} types per language, and every tokenizer splits text on whitespace before it does anything else.
+The methods differ in what else they are allowed to see. The two reference tokenizers see nothing else, the three POS-weighted variants see a part-of-speech tag for every training word, and Lemma2Word sees a lemma for every training word.
+
+\subsection{Byte-Pair Encoding with a Free Space Marker}\label{sec:freebpe}
+Byte-pair encoding~\cite{sennrich2016bpe} builds a vocabulary by repeatedly merging the most frequent pair of adjacent symbols.
+The implementation on which the POS weighting was built represents a paragraph as the characters of its words with the marker \textvisiblespace{} inserted between words as a symbol of its own.
+The marker takes part in merges like any other symbol, so a merge can attach it to the end of the preceding word (\texttt{the\textvisiblespace}), to the start of the next word, or bury it inside a token that covers two words (\texttt{of\textvisiblespace the\textvisiblespace}).
+In the SentencePiece convention~\cite{kudo2018sentencepiece}, by contrast, the marker is prefixed to every word before training, so no token ever crosses a word boundary.
+Both conventions are evaluated.
+The free-marker variant is the base on which the POS weighting operates and is referred to as \emph{BPE, free marker}; the prefixed variant is \emph{BPE, word-initial marker}.
+In both, the vocabulary consists of the alphabet of the training text plus the learned merges.
+
+\subsection{Part-of-Speech-Weighted Merges}\label{sec:posbpe}
+Every training word carries a Universal Dependencies part-of-speech tag (Section~\ref{sec:protocol}).
+From the tagged text a transition table $P(b \mid a)$ is estimated, the probability that a word tagged $a$ is followed by a word tagged $b$.
+The POS-weighted variant replaces the count of a candidate pair with a weighted sum over its occurrences.
+An occurrence that joins the last symbol of a word to the marker that follows it has weight $1 + p$, where $p = P(b \mid a)$ for the tags $a$ and $b$ of the two words around the marker, clamped to $[0.01, 0.95]$.
+Every occurrence that involves the bare marker, on either side, is further multiplied by $0.98$.
+All other occurrences have weight 1.
+The weighting therefore favors merges that attach a trailing space to a word whose successor is predictable from its tag, discourages merges with the marker slightly, and leaves pairs inside a word untouched.
+Two ablations isolate the components. \emph{Transitions only} drops the factor $0.98$, and \emph{penalty only} drops the transition term.
+
+The original implementation scores every pair from scratch at every merge, which limits it to toy vocabularies.
+The version used here keeps an index of pair occurrences and updates the affected scores after each merge, so an 8,000-type vocabulary trains in under a minute on 3,000 paragraphs.
+Two defects of the original were corrected.
+Unseen transitions received a weight of $0.6$, more than most observed transition probabilities; they now receive the floor value $0.01$.
+The original also recovered word positions by scanning the current symbol sequence for bare markers, so once a marker had been merged into a token it was no longer counted and every transition weight after that point referred to the wrong pair of words; the reimplementation records the word of every symbol when the sequence is built.
+With both corrections switched off, the reimplementation reproduces the original's pair scores exactly before the first merge and its full merge sequence in the unweighted case (\texttt{experiments/test\_posbpe.py}).
+
+\subsection{Content-Word Weighting}\label{sec:content}
+The intended effect of the POS signal, as described when the method was designed, was to keep content words whole, so that a noun such as \emph{scientist} is not split into \emph{sci}, \emph{enti} and \emph{st} merely because its parts are frequent.
+The merge weighting of Section~\ref{sec:posbpe} cannot produce that effect, because it never changes the score of a pair inside a word.
+A direct version is included, in which an occurrence of a pair inside a word tagged \textsc{noun}, \textsc{propn}, \textsc{verb} or \textsc{adj} counts twice and every other occurrence counts once.
+The weight 2 was fixed before any experiment and was not tuned.
+This variant moves vocabulary budget toward whole content words and away from function words and affixes.
+
+\subsection{Lemma2Word}\label{sec:l2w}
+Stanza provides a lemma for every training word.
+The stem of a word is the lemma when the lemma occurs inside the word (\emph{walk} in \emph{walking}), and otherwise the longest substring the word and the lemma share, provided it has at least three characters (\emph{habl} in \emph{hablo} and \emph{hablar}).
+The characters before the stem form a prefix and the characters after it a suffix, so a word receives at most two boundaries.
+Three things are learned from the training text. The first is a lexicon that maps every word form to its boundaries, taking the majority vote when a form is lemmatized inconsistently. The other two are inventories of suffixes and of prefixes, each affix with its count.
+A word form that is in the lexicon is split as the lexicon says.
+A form that is not is split before the longest suffix in the inventory that leaves a stem of at least three characters, and after the longest such prefix, provided the affix occurred at least 20 times.
+The pieces are then encoded by a free-marker BPE that was trained on the pre-segmented training text with the pieces kept apart, so no merge crosses a Lemma2Word boundary.
+This variant, \emph{lexicon}, never calls the lemmatizer after training.
+A second variant, \emph{online}, lemmatizes the word being tokenized with Stanza and derives the stem from that lemma, falling back to the lexicon rule when the two share no substring.
+The online variant is the design in the original report; it is also the one that requires a tagger at tokenization time and that shares training data with the gold standard (Section~\ref{sec:gold}).
+
+\subsection{Reference Tokenizers}
+The BPE with a word-initial marker is the implementation in the Hugging Face \texttt{tokenizers} library with the Metaspace pre-tokenizer.
+The unigram language model tokenizer~\cite{kudo2018subword} is the SentencePiece implementation with full character coverage and no Unicode normalization, so that every tokenizer sees the same characters.
+
+\subsection{A Language Model as a Segmenter}\label{sec:llm}
+The original report also proposed segmenting words by prompting a large language model.
+That approach is evaluated as a segmenter rather than as a tokenizer. A fixed sample of evaluation words is sent to the model with instructions to mark morpheme boundaries without changing any character, and the returned boundaries are scored like those of every other method.
+Section~\ref{sec:res-llm} reports the study and Appendix~\ref{app:prompt} gives the prompt.

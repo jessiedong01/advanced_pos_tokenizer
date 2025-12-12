@@ -1,0 +1,33 @@
+\begin{table}[!ht]
+\centering
+\caption{Word boundaries spanned by a token on held-out text: share of boundaries (\%), mean probability (\%) of the POS transition at spanned boundaries, and the same mean over all boundaries. Seed 0; the most frequent spanned transition and token are shown for the POS-weighted model.}
+\label{tab:span}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llccclc}
+\toprule
+Language & System & spanned (\%) & $P$, spanned & $P$, all & top transition & top token \\
+\midrule
+English & BPE, free marker & 45.2 & 23.3 & 22.1 & ADP$\to$DET & \texttt{in\textvisiblespace{}the\textvisiblespace{}} \\
+ & POS-weighted BPE & 42.6 & 23.5 & 22.1 & ADP$\to$DET & \texttt{of\textvisiblespace{}the\textvisiblespace{}} \\
+ & Content-word-weighted BPE & 33.2 & 24.4 & 22.1 & ADP$\to$DET & \texttt{of\textvisiblespace{}the\textvisiblespace{}} \\
+\addlinespace[2pt]
+Spanish & BPE, free marker & 54.1 & 32.3 & 28.2 & DET$\to$NOUN & \texttt{a\textvisiblespace{}de\textvisiblespace{}} \\
+ & POS-weighted BPE & 54.1 & 32.3 & 28.2 & DET$\to$NOUN & \texttt{a\textvisiblespace{}de\textvisiblespace{}} \\
+ & Content-word-weighted BPE & 43.5 & 33.8 & 28.2 & DET$\to$NOUN & \texttt{en\textvisiblespace{}la\textvisiblespace{}} \\
+\addlinespace[2pt]
+Danish & BPE, free marker & 41.3 & 21.1 & 22.4 & NOUN$\to$ADP & \texttt{en\textvisiblespace{}i\textvisiblespace{}} \\
+ & POS-weighted BPE & 41.4 & 21.1 & 22.4 & NOUN$\to$ADP & \texttt{en\textvisiblespace{}i\textvisiblespace{}} \\
+ & Content-word-weighted BPE & 31.0 & 20.9 & 22.4 & NOUN$\to$ADP & \texttt{er\textvisiblespace{}i\textvisiblespace{}} \\
+\addlinespace[2pt]
+Tamil & BPE, free marker & 54.1 & 24.4 & 24.9 & NOUN$\to$NOUN & \tamil{ு}\textvisiblespace{}\tamil{ப} \\
+ & POS-weighted BPE & 39.5 & 25.0 & 24.9 & NOUN$\to$NOUN & \tamil{ு}\textvisiblespace{}\tamil{ப} \\
+ & Content-word-weighted BPE & 7.4 & 26.5 & 24.9 & NOUN$\to$NOUN & \tamil{ப்}\textvisiblespace{}\tamil{ப} \\
+\addlinespace[2pt]
+Turkish & BPE, free marker & 15.5 & 22.3 & 25.0 & NOUN$\to$CCONJ & \texttt{i\textvisiblespace{}ve\textvisiblespace{}} \\
+ & POS-weighted BPE & 15.2 & 22.5 & 25.0 & NOUN$\to$CCONJ & \texttt{i\textvisiblespace{}ve\textvisiblespace{}} \\
+ & Content-word-weighted BPE & 9.0 & 23.7 & 25.0 & NOUN$\to$CCONJ & \texttt{i\textvisiblespace{}ve\textvisiblespace{}} \\
+\addlinespace[2pt]
+\bottomrule
+\end{tabular}
+\end{table}

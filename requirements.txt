@@ -1,6 +1,11 @@
 stanza
-tqdm
-rich
+tokenizers
+sentencepiece
+datasets
+torch
 numpy
 pandas
 matplotlib
+anthropic
+tqdm
+rich

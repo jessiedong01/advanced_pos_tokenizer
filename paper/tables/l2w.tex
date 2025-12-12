@@ -1,0 +1,35 @@
+\begin{table}[!ht]
+\centering
+\caption{Lemma2Word boundary recall and precision (\%) by word subset: all unique forms, forms absent from the tokenizer's training text, and forms from the UD test split. \emph{Lexicon} uses only boundaries and affixes learned from the training text; \emph{online} also lemmatizes the evaluation word with Stanza at tokenization time. Mean over three seeds.}
+\label{tab:l2w}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llcccccc}
+\toprule
+ & & \multicolumn{2}{c}{all} & \multicolumn{2}{c}{unseen} & \multicolumn{2}{c}{UD test} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+Language & Variant & R & P & R & P & R & P \\
+\midrule
+English & lexicon & 88.2 & 45.3 & 73.7 & 30.3 & 84.0 & 37.2 \\
+ & online & 98.2 & 50.9 & 98.2 & 41.1 & 91.1 & 40.9 \\
+ & BPE, free marker & 54.4 & 31.6 & 54.5 & 25.5 & 49.2 & 24.8 \\
+\addlinespace[2pt]
+Spanish & lexicon & 62.2 & 25.6 & 40.2 & 15.3 & 48.1 & 18.3 \\
+ & online & 99.1 & 39.0 & 99.1 & 35.4 & 94.8 & 34.2 \\
+ & BPE, free marker & 29.4 & 13.7 & 35.8 & 14.7 & 31.8 & 13.2 \\
+\addlinespace[2pt]
+Danish & lexicon & 70.8 & 31.7 & 49.5 & 17.9 & 65.5 & 27.2 \\
+ & online & 97.2 & 43.6 & 97.1 & 35.3 & 88.0 & 37.0 \\
+ & BPE, free marker & 37.9 & 17.9 & 41.0 & 15.9 & 38.0 & 16.7 \\
+\addlinespace[2pt]
+Tamil & lexicon & 84.5 & 38.5 & 74.2 & 27.4 & 80.6 & 34.7 \\
+ & online & 97.6 & 46.3 & 97.7 & 38.5 & 91.5 & 39.9 \\
+ & BPE, free marker & 7.4 & 3.2 & 7.0 & 2.5 & 5.9 & 2.4 \\
+\addlinespace[2pt]
+Turkish & lexicon & 83.3 & 34.4 & 81.7 & 31.2 & 82.7 & 32.0 \\
+ & online & 88.6 & 37.6 & 88.4 & 34.8 & 89.1 & 35.6 \\
+ & BPE, free marker & 60.2 & 24.7 & 60.5 & 23.2 & 60.4 & 23.2 \\
+\addlinespace[2pt]
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,33 @@
+\begin{table}[!ht]
+\centering
+\caption{Example segmentations of evaluation words absent from the training text (seed 0). Words are the first, middle and last of the alphabetically sorted unseen forms without capitals of 8 to 14 characters with at least one gold boundary; the word-initial-marker BPE is omitted for space. Vertical bars mark boundaries; the gold column shows the lemma-derived boundaries.}
+\label{tab:examples}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llllll}
+\toprule
+Lang. & Gold & BPE, free marker & Content-weighted & Lemma2Word & Unigram \\
+\midrule
+En & \texttt{abduct|ed} & \texttt{ab|duct|ed} & \texttt{ab|duct|ed} & \texttt{ab|duc|t|ed} & \texttt{a|b|du|c|ted} \\
+En & \texttt{interrupt|ing} & \texttt{inter|rupt|ing} & \texttt{inter|rupt|ing} & \texttt{inter|rup|t|ing} & \texttt{interrupt|ing} \\
+En & \texttt{youngster|s} & \texttt{young|st|ers} & \texttt{young|st|ers} & \texttt{young|ster|s} & \texttt{young|ster|s} \\
+\addlinespace[2pt]
+Sp & \texttt{abandonado|s} & \texttt{abandon|ados} & \texttt{abandon|ados} & \texttt{abandon|a|dos} & \texttt{abandonado|s} \\
+Sp & \texttt{galeote|s} & \texttt{gal|e|ot|es} & \texttt{gal|e|ot|es} & \texttt{gal|e|ot|es} & \texttt{gal|eo|tes} \\
+Sp & \texttt{ímprobo|s} & \texttt{í|m|prob|os} & \texttt{í|m|prob|os} & \texttt{í|m|prob|os} & \texttt{í|mp|ro|bo|s} \\
+\addlinespace[2pt]
+Da & \texttt{abonnent|erne} & \texttt{ab|on|n|ent|erne} & \texttt{abon|n|ent|ern|e} & \texttt{ab|on|n|ent|erne} & \texttt{ab|on|n|en|t|erne} \\
+Da & \texttt{landshold|ets} & \texttt{lands|hol|det|s} & \texttt{lands|hold|et|s} & \texttt{lands|hold|et|s} & \texttt{lands|hold|ets} \\
+Da & \texttt{østmagt|ernes} & \texttt{øst|magt|ern|es} & \texttt{øst|magt|ern|es} & \texttt{øst|magt|erne|s} & \texttt{øst|magt|ernes} \\
+\addlinespace[2pt]
+Ta & \tamil{gஎர்மனி|யில்} & \tamil{g|எ|ர்மன|ிய|ில்} & \tamil{g|எ|ர்மன|ிய|ில்} & \tamil{g|எ|ர்ம|னி|யில்} & \tamil{g|எ|ர்|ம|னி|யில்} \\
+Ta & \tamil{தற்கொலை|ப்} & \tamil{தற்க|ொலைப|்} & \tamil{தற்கொ|லை|ப்} & \tamil{தற்க|ொ|ல|ை|ப்} & \tamil{தற்கொலை|ப்} \\
+Ta & \tamil{ஹென்றி|யின்} & \tamil{ஹ|ென்ற|ிய|ின்} & \tamil{ஹெ|ன்ற|ிய|ின்} & \tamil{ஹெ|ன்ற|ி|ய|ின்} & \tamil{ஹென்றி|யின்} \\
+\addlinespace[2pt]
+Tu & \texttt{abajur|lara} & \texttt{ab|aj|ur|lar|a} & \texttt{ab|aj|ur|lar|a} & \texttt{aba|j|ur|lar|a} & \texttt{a|ba|j|ur|lara} \\
+Tu & \texttt{korkala|mıştı} & \texttt{kor|kal|amış|tı} & \texttt{kor|kal|amış|t|ı} & \texttt{kor|kal|amış|tı} & \texttt{kor|ka|la|mıştı} \\
+Tu & \texttt{şıpıdık|larının} & \texttt{ş|ıp|ı|dık|ların|ın} & \texttt{ş|ıp|ıd|ık|larının} & \texttt{ş|ıp|ı|dık|ların|ın} & \texttt{ş|ıp|ı|dıkları|nın} \\
+\addlinespace[2pt]
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Boundary precision (\%).}
+\label{tab:precision}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 31.6\,{\scriptsize$\pm$1.2} & 13.7\,{\scriptsize$\pm$0.5} & 17.9\,{\scriptsize$\pm$0.6} & 3.2\,{\scriptsize$\pm$1.7} & 24.7\,{\scriptsize$\pm$1.4} \\
+POS-weighted BPE & 33.6\,{\scriptsize$\pm$1.1} & 13.8\,{\scriptsize$\pm$0.6} & 18.1\,{\scriptsize$\pm$0.3} & 4.5\,{\scriptsize$\pm$1.7} & 24.6\,{\scriptsize$\pm$1.3} \\
+\quad transitions only & 33.6\,{\scriptsize$\pm$1.2} & 13.8\,{\scriptsize$\pm$0.6} & 18.1\,{\scriptsize$\pm$0.3} & 4.6\,{\scriptsize$\pm$1.7} & 24.6\,{\scriptsize$\pm$1.3} \\
+\quad penalty only & 32.7\,{\scriptsize$\pm$0.9} & 13.7\,{\scriptsize$\pm$0.5} & 18.0\,{\scriptsize$\pm$0.7} & 3.2\,{\scriptsize$\pm$1.7} & 24.6\,{\scriptsize$\pm$1.5} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 34.3\,{\scriptsize$\pm$0.2} & 12.1\,{\scriptsize$\pm$0.2} & 20.1\,{\scriptsize$\pm$0.5} & 16.8\,{\scriptsize$\pm$0.9} & 24.2\,{\scriptsize$\pm$0.3} \\
+Lemma2Word + BPE & \textbf{45.3\,{\scriptsize$\pm$0.1}} & \textbf{25.6\,{\scriptsize$\pm$0.1}} & \textbf{31.7\,{\scriptsize$\pm$0.2}} & \textbf{38.5\,{\scriptsize$\pm$0.4}} & 34.4\,{\scriptsize$\pm$0.1} \\
+BPE, word-initial marker & 22.0\,{\scriptsize$\pm$0.3} & 5.3\,{\scriptsize$\pm$0.4} & 10.2\,{\scriptsize$\pm$0.1} & 6.4\,{\scriptsize$\pm$0.3} & 31.0\,{\scriptsize$\pm$0.3} \\
+Unigram LM & 45.0\,{\scriptsize$\pm$0.5} & 21.9\,{\scriptsize$\pm$0.0} & 27.2\,{\scriptsize$\pm$0.4} & 36.9\,{\scriptsize$\pm$0.8} & \textbf{35.0\,{\scriptsize$\pm$0.3}} \\
+\bottomrule
+\end{tabular}
+\end{table}

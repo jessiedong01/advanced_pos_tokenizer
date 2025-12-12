@@ -1,0 +1,33 @@
+\section{Discussion}\label{sec:discussion}
+
+\paragraph{Why the transition weighting cannot work.}
+A merge score in BPE is a count of adjacent symbol pairs, and the POS-weighted variant multiplies the count of a pair at a word boundary by one plus the probability of the tag transition there.
+Since that probability is a function of the two words' tags and the tags are a function of the words, the weight is a smoothed version of the pair's own frequency, so that \emph{of the} is merged because it is frequent and the weighting adds a bonus for the same reason.
+Table~\ref{tab:span} shows the consequence, with the same tokens crossing word boundaries with and without the weighting and a transition probability at a spanned boundary no higher than at an unspanned one.
+A signal about the order of words cannot say where to cut inside a word, which is where the gold boundaries lie, and the design never gave it a way to.
+
+\paragraph{What the preliminary diagnostics measured.}
+The earlier report described lower segmentation entropy, longer tokens, gains of 12 to 20 points in a transition-accuracy diagnostic and of about 20 points in vocabulary reuse.
+None of those quantities was computed against held-out words or a gold standard, and the implementation they came from scored transitions against the wrong words after its first space-absorbing merge (Section~\ref{sec:posbpe}).
+Under the protocol of Section~\ref{sec:protocol} vocabulary reuse does not change (Table~\ref{tab:jaccard}), token length changes by less than one percent (Table~\ref{tab:tpw}), and the only method with a consistent effect on morphological boundaries is the one that uses a lemmatizer.
+
+\paragraph{Lemmas against tags.}
+A lemma says where a word's stem ends, whereas a tag says what kind of word it is, and only the first is information about boundaries, from which the results follow.
+Lemma2Word moves recall by 23 to 77 points, and the part of that gain which survives on unseen words depends on how far an affix inventory generalizes, well for English and Turkish, where the suffixes are long and distinctive, and poorly for Spanish and Danish, where they are short.
+The online variant generalizes through the lemmatizer instead and reaches recall of 88\% to 95\% on treebank test forms, at the price of running a neural lemmatizer at tokenization time and of sharing its training data with the gold standard.
+The content-word weighting sits between the two, since it uses tags but uses them to decide which words to keep whole, a decision about boundaries, and it helps where whole content words are what the budget was missing, as in Tamil, and hurts where the budget was better spent on suffixes, as in Spanish and Turkish.
+
+\paragraph{Alignment against modeling.}
+The probe of Section~\ref{sec:res-lm} separates two things that the literature on morphology-aware tokenization often treats as one.
+Finding more gold boundaries did not make a tokenizer better for the language model. The tokenizer that found the most, Lemma2Word, made it worst, and the unigram model, which finds fewer boundaries than Lemma2Word but segments by a probabilistic model of the text, made it best by a margin of a quarter of a bit per character.
+The probe is small, and a larger model with more text may close or reverse some of these gaps, but the direction of the result agrees with \citet{bostrom2020bpe} and with the finding that intrinsic measures of a tokenizer predict downstream quality imperfectly~\cite{schmidt2024tokenization,ali2024tokenizer}, and it means that a morphological boundary score alone is not a sufficient reason to adopt a tokenizer.
+
+\paragraph{The marker convention.}
+A side result concerns a choice that is rarely discussed, the treatment of the space marker.
+Letting it merge freely, as the original implementation does, produces tokens that cross word boundaries at 4\% to 22\% of boundaries and raises boundary F1 over the word-initial-marker convention in four languages, because whole words with a prefixed marker are no longer available as single tokens and the budget goes to pieces instead, while the probe prefers the word-initial convention in the same four languages.
+The convention therefore matters as much as any of the linguistic signals tested, and comparisons between tokenizers should hold it fixed.
+
+\paragraph{Limitations.}
+The gold standard records at most two boundaries per word, the ones around the stem, so derivational structure inside the stem counts against precision, which makes recall the safer number, although the ranking of the methods is the same under both.
+The training samples are small, 3,000 paragraphs per language, because the free-marker implementation is pure Python, and while the vocabulary sweep shows the same ordering at every budget, larger corpora could change the absolute numbers.
+Tags and lemmas come from one tagger, the Tamil treebank behind both the tagger and the gold standard is the smallest of the five, and the language-model probe is a 7M-parameter model trained for minutes, which can show that tokenizers differ at that scale but not that they differ at the scale of a large language model.

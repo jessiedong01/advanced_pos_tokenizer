@@ -1,0 +1,15 @@
+\subsection{A Language Model as a Segmenter}\label{sec:res-llm}
+Table~\ref{tab:llm} reports the segmentation study of Section~\ref{sec:llm}.
+For each language, 400 word forms were drawn at random (seed 0) from the gold list, and Claude Sonnet (model string \texttt{claude-sonnet-5-5}, October 2026) was asked, in batches of 40 words, to insert plus signs at the morpheme boundaries without changing a character; the prompt is given in Appendix~\ref{app:prompt}.
+An answer whose characters differ from the word is invalid and is excluded from the scores.
+To compare like with like, the seed-0 tokenizers are scored on exactly the words the model answered validly.
+
+\input{tables/llm}
+
+The model recovers more gold boundaries than any tokenizer in four languages, with \nLlmREnglish\% recall in English against \nLlmSampleLtwREnglish\% for Lemma2Word on the same words, \nLlmRTamil\% against \nLlmSampleLtwRTamil\% in Tamil and \nLlmRTurkish\% against \nLlmSampleLtwRTurkish\% in Turkish, and it trails Lemma2Word in Danish (\nLlmRDanish\% against \nLlmSampleLtwRDanish\%).
+Its precision is between \nLlmPSpanish\% and \nLlmPEnglish\%, because it marks derivational affixes and compound parts that the lemma-derived gold standard does not, producing \nLlmTpwEnglish{} to \nLlmTpwSpanish{} pieces per word where the gold has at most three.
+Almost every answer preserved the characters in the four Latin-script languages (\nLlmInvalidSpanish{} invalid answer in Spanish, none elsewhere).
+Tamil was harder in two ways.
+The model reasoned at length before answering, so that 40-word batches overran the reply length and the unanswered words had to be re-asked in batches of 15, and \nLlmInvalidTamil{} answers wrote the underlying morphemes instead of the surface string (\tamil{கள்}\,+\,\tamil{உக்கு} for \tamil{களுக்கு}, where the vowel of the suffix fuses with the preceding consonant in writing), which the character constraint forbids.
+The study used about 2,000 words and a few dollars of API usage, and it shows what the model knows about morphology rather than what a tokenizer built from it would do: the answers have no fixed vocabulary, are not guaranteed to be consistent across occurrences of a word, and cost several orders of magnitude more per word than any tokenizer in Table~\ref{tab:f1}.
+Used offline, to write a segmentation lexicon in the manner of Lemma2Word's, such answers could supply boundaries where no lemmatizer exists; that use is not evaluated here.

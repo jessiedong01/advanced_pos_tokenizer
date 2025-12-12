@@ -1,0 +1,20 @@
+\begin{table}[!ht]
+\centering
+\caption{A language model (Claude Sonnet) prompted to segment words into morphemes, scored on a fixed random sample of the gold word forms, beside three tokenizers (seed 0) scored on the same words. \emph{Invalid}: answers that changed the characters of the word and were excluded. Boundary precision, recall and F1 in \%; tokens per word is the number of pieces.}
+\label{tab:llm}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrcccccccc}
+\toprule
+ & & & \multicolumn{4}{c}{language model} & \multicolumn{3}{c}{recall of tokenizers on the same words} \\
+\cmidrule(lr){4-7}\cmidrule(lr){8-10}
+Language & words & invalid & P & R & F1 & pieces/word & Lemma2Word & Unigram & BPE, free \\
+\midrule
+English & 400 & 0 & 77.6 & 91.0 & 83.8 & 2.17 & 87.0 & 69.2 & 52.2 \\
+Spanish & 399 & 1 & 35.1 & 69.9 & 46.8 & 2.99 & 62.2 & 44.1 & 25.3 \\
+Danish & 400 & 0 & 38.9 & 66.0 & 49.0 & 2.69 & 72.5 & 50.0 & 42.0 \\
+Tamil & 393 & 7 & 72.6 & 90.4 & 80.5 & 2.25 & 84.8 & 48.9 & 6.8 \\
+Turkish & 400 & 0 & 50.7 & 96.5 & 66.5 & 2.90 & 84.8 & 67.2 & 60.2 \\
+\bottomrule
+\end{tabular}
+\end{table}

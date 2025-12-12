@@ -1,40 +1,22 @@
-# POS-Aware Tokenizer
+# Part-of-Speech and Lemma Information in Subword Tokenization
 
-We built a tokenizer that uses morphology and basic syntax. It adds POS-aware costs to the merge schedule so the model prefers boundaries that match grammar, not only frequency.
+Byte-pair encoding and the unigram language model build their vocabularies from character statistics alone. This repository contains the code, the data preparation and the paper for a controlled evaluation of tokenizers that also use the part-of-speech tags and lemmas a standard tagger provides, in English, Spanish, Danish, Tamil and Turkish. Weighting BPE merges by the probability of the part-of-speech transition at each word boundary leaves boundary accuracy and compression unchanged, weighting merges inside content words has an effect that depends on the language, and Lemma2Word, which segments each word at the boundary its lemma implies, raises boundary recall by 23 to 77 points at a cost of four to eight percent more tokens. A language-model probe orders the tokenizers differently, with the unigram model lowest in bits per character and Lemma2Word highest in every language.
 
-## What this repo has
-- `src/pos_preprocess.py` — tag a corpus with UPOS using Stanza (multilingual).
-- `src/pos_transition.py` — compute POS transition probabilities and convert to reward factors.
-- `src/tokenizer_models.py` — a compact BPE-style tokenizer with an option to use POS signals at word boundaries. Includes ablations.
-- `src/train_tokenizers.py` — trains baseline and POS-aware tokenizers with the same settings.
-- `src/evaluate_tokenizers.py` — metrics that compare vocab statistics and syntactic alignment.
-- `src/run_experiments.py` — batch runner for English, Spanish, and Turkish. Saves CSVs to `results/`.
-- `src/utils/metrics.py` and `src/utils/visualize.py` — helper code.
-- `notebooks/pos_analysis.ipynb` — optional plots.
+## Paper
 
-## Quick start
+[Part-of-Speech and Lemma Information in Subword Tokenization: A Controlled Evaluation in Five Languages](paper/main.pdf) (`paper/main.pdf`; the LaTeX source is in `paper/`).
+
+## Reproduction
+
 ```bash
-pip install -r requirements.txt
-
-# 1) Tag corpus (downloads Stanza models on first use)
-python src/pos_preprocess.py data/train_en.txt data/en_pos.json en
-
-# 2) Transitions
-python src/pos_transition.py data/en_pos.json data/en_transitions.json
-
-# 3) Train both models
-python src/train_tokenizers.py   --corpus data/train_en.txt   --pos_json data/en_pos.json   --pos_transitions data/en_transitions.json   --vocab_size 32000   --outdir results/en_models
-
-# 4) Evaluate
-python src/evaluate_tokenizers.py   --corpus data/train_en.txt   --pos_json data/en_pos.json   --models_dir results/en_models   --report results/en_report.csv
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python experiments/fetch_corpus.py     # Wikipedia paragraphs
+experiments/tag_all.sh                           # Stanza tags and lemmas
+experiments/run_all.sh                           # 5 languages x 8 tokenizers x 3 seeds
+experiments/run_sweep.sh                         # 2,000 and 32,000 types
+experiments/lm_queue.sh                          # language-model probes
+.venv/bin/python experiments/llm_segment.py      # segmentation study (needs ANTHROPIC_API_KEY)
+.venv/bin/python experiments/aggregate.py        # paper/numbers.tex, tables, figures
 ```
 
-## Experiments at a glance
-- Same corpus, same vocab size, same loop. The only change is the POS factor.
-- We report: vocab overlap, avg token length, token length entropy, POS-alignment rate, and a small qualitative table.
-- `run_experiments.py` repeats this for English, Spanish, and Turkish.
-
-## Notes
-- POS is cached offline; no tagging during training.
-- Factors come from your corpus’s own transition stats, not hard-coded rules.
-- Future work: context-aware POS at decode time, and regularization to avoid over-rewarding common transitions.
+The metrics of every run are committed under `results/`, so the numbers in the paper can be checked without retraining. The gold morpheme boundaries come from MorphScore (Arnett, Hudspeth and O'Connor, 2025) and the text from the Wikipedia snapshot of 1 November 2023, both through Hugging Face datasets.

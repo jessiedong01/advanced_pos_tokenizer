@@ -1,0 +1,22 @@
+\begin{table}[!ht]
+\centering
+\caption{Tokens per whitespace word on held-out Wikipedia paragraphs (lower is more compact).}
+\label{tab:tpw}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+System & English & Spanish & Danish & Tamil & Turkish \\
+\midrule
+BPE, free marker & 1.481\,{\scriptsize$\pm$0.002} & 1.413\,{\scriptsize$\pm$0.002} & 1.606\,{\scriptsize$\pm$0.002} & 2.242\,{\scriptsize$\pm$0.005} & 1.962\,{\scriptsize$\pm$0.002} \\
+POS-weighted BPE & 1.470\,{\scriptsize$\pm$0.001} & \textbf{1.412\,{\scriptsize$\pm$0.001}} & \textbf{1.604\,{\scriptsize$\pm$0.002}} & 2.215\,{\scriptsize$\pm$0.006} & 1.938\,{\scriptsize$\pm$0.025} \\
+\quad transitions only & 1.470\,{\scriptsize$\pm$0.001} & 1.412\,{\scriptsize$\pm$0.001} & 1.604\,{\scriptsize$\pm$0.002} & 2.215\,{\scriptsize$\pm$0.006} & 1.938\,{\scriptsize$\pm$0.025} \\
+\quad penalty only & \textbf{1.470\,{\scriptsize$\pm$0.001}} & 1.413\,{\scriptsize$\pm$0.002} & 1.605\,{\scriptsize$\pm$0.002} & 2.243\,{\scriptsize$\pm$0.005} & 1.962\,{\scriptsize$\pm$0.003} \\
+\addlinespace[2pt]
+Content-word-weighted BPE & 1.486\,{\scriptsize$\pm$0.002} & 1.423\,{\scriptsize$\pm$0.002} & 1.619\,{\scriptsize$\pm$0.001} & 2.150\,{\scriptsize$\pm$0.012} & 1.998\,{\scriptsize$\pm$0.003} \\
+Lemma2Word + BPE & 1.538\,{\scriptsize$\pm$0.001} & 1.531\,{\scriptsize$\pm$0.002} & 1.703\,{\scriptsize$\pm$0.001} & 2.376\,{\scriptsize$\pm$0.002} & 2.080\,{\scriptsize$\pm$0.010} \\
+BPE, word-initial marker & 1.555\,{\scriptsize$\pm$0.001} & 1.565\,{\scriptsize$\pm$0.000} & 1.713\,{\scriptsize$\pm$0.001} & \textbf{2.042\,{\scriptsize$\pm$0.001}} & \textbf{1.883\,{\scriptsize$\pm$0.002}} \\
+Unigram LM & 1.609\,{\scriptsize$\pm$0.001} & 1.607\,{\scriptsize$\pm$0.002} & 1.778\,{\scriptsize$\pm$0.004} & 2.177\,{\scriptsize$\pm$0.006} & 2.004\,{\scriptsize$\pm$0.004} \\
+\bottomrule
+\end{tabular}
+\end{table}

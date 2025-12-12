@@ -1,0 +1,49 @@
+\section{Evaluation Protocol}\label{sec:protocol}
+
+\subsection{Languages and Text}
+The five languages are English, Spanish, Danish, Tamil and Turkish, the set used in the original report.
+They cover three families and two scripts, and range from the mostly isolating English to the agglutinative Tamil and Turkish, where a single word carries several suffixes.
+Training and held-out text come from the Wikipedia snapshot of 1 November 2023~\cite{wikimedia2023dump}.
+For each language the first 2,000 articles of the dump are skipped, because they are mostly short administrative pages, and paragraphs of 200 to 1,500 characters are collected from the next 6,000 articles.
+After shuffling with a fixed seed, 4,000 paragraphs form the training pool and 500 further paragraphs the held-out set.
+Each training seed draws 3,000 paragraphs from the pool, so the three seeds of a method differ in their training text as well as in any randomness of the method; this makes the seed-to-seed variation a measure of sensitivity to the sample.
+A training sample holds between \nTrainWordsTamil{} (Tamil) and \nTrainWordsEnglish{} (English) words.
+
+\subsection{Tags and Lemmas}
+Stanza~1.11~\cite{qi2020stanza} tags and lemmatizes every training and held-out paragraph.
+Stanza's tokens do not coincide with whitespace words, because punctuation is split off and Spanish and Turkish have multi-word tokens.
+Since every tokenizer under test splits on whitespace, each whitespace word is assigned the tag and lemma of the first non-punctuation Stanza word that starts inside it, or \textsc{punct} if there is none.
+The transition table of Section~\ref{sec:posbpe} and the Lemma2Word lexicon are computed from the aligned training words of the respective seed.
+
+\subsection{Gold Morpheme Boundaries}\label{sec:gold}
+Boundary accuracy is measured against MorphScore version~2~\cite{arnett2025morphscore}, which derives a segmentation for every word form in a Universal Dependencies treebank~\cite{nivre2020ud} from its lemma: the stem is the part of the form that the lemma also contains, and the material before and after the stem are the affixes.
+A form therefore has at most two gold boundaries, and derivational structure inside the stem (\emph{un}$\,|\,$\emph{believ}$\,|\,$\emph{able}) is not annotated.
+A tokenizer that places boundaries inside stems is penalized in precision even when the boundaries are linguistically sound; recall is the measure of whether a tokenizer separates the inflectional affixes from the stem, and is read as the primary number.
+Following the default of the MorphScore release, only unique forms whose lemma equals the recorded stem are kept.
+Forms containing digits or punctuation and forms whose parts do not reassemble into the form are dropped.
+This leaves \nMorphWordsEnglish{} English, \nMorphWordsSpanish{} Spanish, \nMorphWordsDanish{} Danish, \nMorphWordsTamil{} Tamil and \nMorphWordsTurkish{} Turkish forms, drawn from the EWT, AnCora, DDT, TTB and Kenet treebanks.
+Each word is tokenized in isolation, markers are removed, and the character positions of the token boundaries are compared with the gold positions.
+Precision, recall and F1 are micro-averaged over boundaries.
+
+Two subsets are reported beside the full set.
+The \emph{unseen} subset contains the forms that do not occur in the tokenizer's training text, so a boundary found there cannot come from the Lemma2Word lexicon.
+The \emph{UD test} subset contains the forms taken from the test split of the treebank.
+It matters for the online Lemma2Word variant, because Stanza's lemmatizers are trained on the training splits of the same treebanks from which MorphScore draws its forms, so that on training-split forms the lemmatizer can return the gold lemma from memory.
+The treebank-trained tagger does not affect the other tokenizers, which learn from Wikipedia text only.
+
+\subsection{Compression and Stability}
+On the held-out paragraphs every tokenizer is scored by tokens per whitespace word and characters per token, with markers not counted as characters, and by the share of tokens that span a word boundary.
+For the free-marker tokenizers, the part-of-speech transition at every spanned boundary is looked up in the training transition table, which shows whether the POS weighting changes which boundaries are spanned.
+Stability across training samples is measured on the three seed pairs by the Jaccard overlap of the two vocabularies and by the boundary F1 between the two segmentations of the same held-out text.
+
+\subsection{Language-Model Probe}
+Whether a tokenizer helps a language model is tested directly, at small scale.
+For every trained tokenizer, a four-layer transformer language model~\cite{vaswani2017attention} with 256-dimensional embeddings, four attention heads and a context of 128 tokens (7.3M parameters) is trained on the tokenized training paragraphs for six passes over the text, with AdamW~\cite{loshchilov2019adamw}, a learning rate of $3\times10^{-4}$ with warm-up and cosine decay, and batches of 64 sequences.
+The held-out paragraphs are scored in non-overlapping windows, and the total negative log-likelihood in bits is divided by the number of characters of the held-out text.
+The character count is the same for every tokenizer of a language, so bits per character compares tokenizers that produce different numbers of tokens on an equal footing.
+Each tokenizer seed gets one language model, trained with the same model seed.
+
+\subsection{Compute}
+All tokenizers and probes were run on one laptop.
+Training a free-marker BPE or any of its weighted variants on 3,000 paragraphs takes about a minute on one core; the reference tokenizers take seconds; a language-model probe takes one to three minutes on the laptop's GPU.
+The complete grid, 120 tokenizer runs, 120 probes and the vocabulary sweep, runs in a few hours.
